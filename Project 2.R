@@ -7,6 +7,7 @@ library(rpart)
 library(rpart.plot)
 library(forecast)
 library(caret)
+library(ROSE)
 
 
 data <- read.csv("credit_3.csv", header = TRUE)
@@ -19,13 +20,14 @@ str(data)
 data <- data[, -c(1)]
 t(t(names(data)))
 
-#data <- data[, -c(1, 4, 12, 18:20, 22:27, 30:39, 41:66)]
+data <- data[, c(3, 8, 9, 14, 2)]
 t(t(names(data)))
 
-#data <- data[, c(2:14, 1)]
-t(t(names(data)))
 
 data$TARGET <- as.factor(data$TARGET)
+data$NAME_CONTRACT_TYPE <- as.factor(data$NAME_CONTRACT_TYPE)
+data$NAME_EDUCATION_TYPE <- as.factor(data$NAME_EDUCATION_TYPE)
+
 str(data)
 
 
@@ -42,22 +44,34 @@ valid_df <- data[valid_index, ]
 str(train_df)
 str(valid_df)
 
+table(train_df$TARGET)
+train_df_balanced <- ROSE(TARGET ~  ., 
+                          data = train_df, seed = 666)$data
 
+table(train_df_balanced$TARGET)
 
 # CLASSIFICATION TREE-------------------
-names(train_df)
+class_tree <- rpart(TARGET ~ ., data = train_df_balanced, method = 'class', maxdepth = 30)
 
-class_tree <- rpart(TARGET ~ ., data = train_df, method = 'class', maxdepth = 30)
-
-prp(class_tree, cex = 0.8, tweak = 1)
+prp(class_tree)
 
 
+# Balanced train df confusion matrix
+class_tr_train_balanced_predict <- predict(class_tree, train_df_balanced, type = 'class')
 
-# regression tree
-regression_tree <- rpart(TARGET ~ .,
-                         data = train_df, method = 'anova', maxdepth = 20)
+confusionMatrix(class_tr_train_balanced_predict, train_df_balanced$TARGET)
 
-prp(regression_tree)
+
+# Validation predict
+class_tr_valid_predict <- predict(class_tree, valid_df, type = 'class')
+
+confusionMatrix(class_tr_valid_predict, valid_df$TARGET)
+
+
+#unbalanced train df predict
+class_tr_train_unbalanced_predict <- predict(class_tree, train_df, type = 'class')
+
+confusionMatrix(class_tr_train_unbalanced_predict, train_df$TARGET)
 
 
 
