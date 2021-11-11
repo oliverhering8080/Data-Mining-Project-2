@@ -2,6 +2,18 @@
 # BUAN 4310 Data Mining
 # Project 2
 
+
+# problem description
+
+# objective
+
+#describe the data
+
+
+
+
+
+
 # SET UP------------------
 library(rpart)
 library(rpart.plot)
@@ -29,6 +41,7 @@ data$OCCUPATION_TYPE <- as.factor(data$OCCUPATION_TYPE)
 data$NAME_EDUCATION_TYPE <- as.factor(data$NAME_EDUCATION_TYPE)
 
 str(data)
+
 
 # TRAINING VALIDATION SPLIT-------------------------
 set.seed(666)
@@ -87,6 +100,31 @@ str(new_records)
 
 new_records_predict <- predict(class_tree, newdata = new_records)
 new_records_predict
+
+
+
+# details on transformations
+
+# explanation of variable selection
+
+# results interpretation
+
+# Discuss how good your final model is
+
+# Discuss new records prediction
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
