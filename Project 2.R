@@ -3,17 +3,6 @@
 # Project 2
 
 
-# problem description
-
-# objective
-
-#describe the data
-
-
-
-
-
-
 # SET UP------------------
 library(rpart)
 library(rpart.plot)
@@ -103,15 +92,7 @@ new_records_predict
 
 
 
-# details on transformations
 
-# explanation of variable selection
-
-# results interpretation
-
-# Discuss how good your final model is
-
-# Discuss new records prediction
 
 
 
