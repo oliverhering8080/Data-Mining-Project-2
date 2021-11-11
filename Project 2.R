@@ -29,7 +29,7 @@ data$NAME_CONTRACT_TYPE <- as.factor(data$NAME_CONTRACT_TYPE)
 data$NAME_EDUCATION_TYPE <- as.factor(data$NAME_EDUCATION_TYPE)
 
 str(data)
-
+data$TARGET <- as.numeric(data$TARGET)
 
 # TRAINING VALIDATION SPLIT-------------------------
 set.seed(666)
@@ -68,11 +68,9 @@ class_tr_valid_predict <- predict(class_tree, valid_df, type = 'class')
 confusionMatrix(class_tr_valid_predict, valid_df$TARGET)
 
 
-#unbalanced train df predict
-class_tr_train_unbalanced_predict <- predict(class_tree, train_df, type = 'class')
-
-confusionMatrix(class_tr_train_unbalanced_predict, train_df$TARGET)
-
+# Attempted regression model
+reg_model <- lm(TARGET ~ AMT_INCOME_TOTAL, data = train_df)
+summary(reg_model)
 
 
 
