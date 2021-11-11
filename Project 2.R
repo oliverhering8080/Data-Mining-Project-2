@@ -20,16 +20,15 @@ str(data)
 data <- data[, -c(1)]
 t(t(names(data)))
 
-data <- data[, c(3, 8, 9, 14, 2)]
+data <- data[, c(7, 8, 9, 14, 28, 2)]
 t(t(names(data)))
 
 
 data$TARGET <- as.factor(data$TARGET)
-data$NAME_CONTRACT_TYPE <- as.factor(data$NAME_CONTRACT_TYPE)
+data$OCCUPATION_TYPE <- as.factor(data$OCCUPATION_TYPE)
 data$NAME_EDUCATION_TYPE <- as.factor(data$NAME_EDUCATION_TYPE)
 
 str(data)
-data$TARGET <- as.numeric(data$TARGET)
 
 # TRAINING VALIDATION SPLIT-------------------------
 set.seed(666)
@@ -69,12 +68,25 @@ confusionMatrix(class_tr_valid_predict, valid_df$TARGET)
 
 
 # Attempted regression model
-reg_model <- lm(TARGET ~ AMT_INCOME_TOTAL, data = train_df)
-summary(reg_model)
+#reg_model <- lm(TARGET ~ OCCUPATION_TYPE, data = train_df)
+#summary(reg_model)
 
 
+# Predicting new records (credit_test_3.csv)
+new_records <- read.csv("credit_test_3.csv", header = TRUE)
+t(t(names(new_records)))
 
 
+new_records <- new_records[, c(7, 8, 9, 14, 28)]
+t(t(names(new_records)))
+
+new_records$OCCUPATION_TYPE <- as.factor(new_records$OCCUPATION_TYPE)
+new_records$NAME_EDUCATION_TYPE <- as.factor(new_records$NAME_EDUCATION_TYPE)
+
+str(new_records)
+
+new_records_predict <- predict(class_tree, newdata = new_records)
+new_records_predict
 
 
 
